@@ -1,6 +1,6 @@
 const {test,expect} =require('@playwright/test');
 
-test.only('Naukri Login',async ({browser})=>
+test('Naukri Login',async ({browser})=>
 {
 const context = await browser.newContext();
 const page = await context.newPage();
