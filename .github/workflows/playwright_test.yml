@@ -29,6 +29,8 @@ jobs:
           path: playwright-report
       - name: Upload Playwright videos
         uses: actions/upload-artifact@v3
+      - name: Upload Playwright traces
+        uses: actions/upload-artifact@v3
         with:
-          name: playwright-videos
-          path: **/videos/*.webm
+          name: playwright-traces
+          path: test-results/**/*.zip
