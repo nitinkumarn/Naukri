@@ -1,8 +1,6 @@
 name: Playwright Tests
 
 on:
-  schedule:
-    - cron: '*/30 * * * *' # Runs every 30 minutes
   push:
     branches:
       - main
