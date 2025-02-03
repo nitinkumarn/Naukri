@@ -13,6 +13,7 @@ await page.locator('[href="/mnjuser/profile"]').click();
 await page.locator('[class="icon edit "]').click();
 await page.locator('#name').fill('Nitinkumar N');
 await page.locator('#saveBasicDetailsBtn').click();
+await console.log("Naukri Login & update Successfull");
 });
 
 test('Page First PlayWright Test',async ({page})=>
