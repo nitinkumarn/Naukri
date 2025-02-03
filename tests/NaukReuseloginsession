@@ -1,0 +1,47 @@
+const { test, expect } = require('@playwright/test');
+const fs = require('fs');
+
+test('Login and save authentication state', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  // Close all pop-ups
+  page.on('dialog', async dialog => {
+    console.log(`Dialog message: ${dialog.message()}`);
+    await dialog.dismiss();
+  });
+
+  await page.goto("https://www.naukri.com/nlogin/login");
+  await page.locator('#usernameField').fill("nitinkumarsuccess@gmail.com");
+  await page.locator('#passwordField').fill("Nitink@1995");
+  await page.locator('//div[@class="action row mb0"]/div/button[1]').click();
+  console.log("Login success");
+
+  // Save storage state into the file.
+  await context.storageState({ path: 'storageState.json' });
+  await context.close();
+});
+
+test('Naukri Login and Update Profile', async ({ browser }) => {
+  // Load the authentication state
+  const context = await browser.newContext({ storageState: 'storageState.json' });
+  const page = await context.newPage();
+
+  // Close all pop-ups
+  page.on('dialog', async dialog => {
+    console.log(`Dialog message: ${dialog.message()}`);
+    await dialog.dismiss();
+  });
+
+  await page.goto("https://www.naukri.com/nlogin/login");
+  console.log("URL Launched");
+
+  await page.locator('//div[@class="personal-info col s12 center"]/div[1]').click();
+  await page.locator('//em[contains(text(),"Edit")]').click();
+
+  await page.locator('#name').fill('Nitinkumar N');
+  await page.locator('#saveBasicDetailsBtn').click();
+  console.log("completed");
+
+  await context.close();
+});
