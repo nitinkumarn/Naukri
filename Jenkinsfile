@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'your-repo-url'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh 'npx playwright test --reporter=html'
+            }
+        }
+        stage('Publish Report') {
+            steps {
+                archiveArtifacts artifacts: '**/playwright-report/*.html', fingerprint: true
+            }
+        }
+    }
+    post {
+        always {
+            publishHTML(target: [
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright Test Report'
+            ])
+        }
+    }
+}
