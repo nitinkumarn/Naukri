@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Publish Report') {
             steps {
-                archiveArtifacts artifacts: '**/playwright-report/*.html', fingerprint: true
+                archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
             }
         }
     }
