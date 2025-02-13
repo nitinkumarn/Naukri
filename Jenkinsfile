@@ -11,6 +11,11 @@ pipeline {
                 bat 'npm install'
             }
         }
+        stage('Install Playwright') {
+            steps {
+                bat 'npx playwright install'
+            }
+        }
         stage('Run Tests') {
             steps {
                 bat 'npx playwright test --reporter=html'
