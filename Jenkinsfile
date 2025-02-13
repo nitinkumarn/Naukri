@@ -1,9 +1,8 @@
 pipeline {
-    agent any
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/nitinkumarn/Naukri'
+                git url: 'https://github.com/nitinkumarn/Naukri.git', branch: 'main'
             }
         }
         stage('Install Dependencies') {
