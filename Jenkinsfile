@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'your-repo-url'
+                git url: 'https://github.com/nitinkumarn/Naukri'
             }
         }
         stage('Install Dependencies') {
