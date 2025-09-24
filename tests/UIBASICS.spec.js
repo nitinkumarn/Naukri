@@ -16,9 +16,9 @@ test('Naukri Login', async ({ browser }) => {
   await console.log("Naukri Login & update Successful");
 
   // Capture full-page screenshot with date and time
-  // const date = new Date();
-  // const formattedDate = date.toISOString().replace(/:/g, '-'); // Replace colons to avoid issues in filenames
-  // await page.screenshot({ path: `screenshot-${formattedDate}.png`, fullPage: true });
+  const date = new Date();
+  const formattedDate = date.toISOString().replace(/:/g, '-'); // Replace colons to avoid issues in filenames
+  await page.screenshot({ path: `screenshot-${formattedDate}.png`, fullPage: true });
 });
 
 // test('Page First PlayWright Test', async ({ page }) => {
