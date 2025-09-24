@@ -32,7 +32,7 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     headless: true, // Set to false to run in headed mode
-    screenshot: 'on',
+    screenshot: 'only-on-failure',
     video: 'retain-on-failure', // Change this to 'retain-on-failure' to retain videos for failed tests
     launchOptions: {
       args: [
@@ -44,9 +44,13 @@ module.exports = defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
     // {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },
