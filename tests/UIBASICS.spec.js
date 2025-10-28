@@ -19,8 +19,8 @@ test('Naukri Login', async ({ browser }) => {
   await page.locator('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type=\"submit\"]').click();
 
   // Wait for profile link after login
-  await page.waitForSelector('[href=\"/mnjuser/profile\"]', { state: 'visible', timeout: 60000 });
-  await page.locator('[href=\"/mnjuser/profile\"]').click();
+  await page.waitForSelector('a[href="/mnjuser/profile"]:has-text("View profile")', { state: 'visible', timeout: 60000 });
+  await page.locator('a[href="/mnjuser/profile"]:has-text("View profile")').click();
 
   await page.locator('[class="icon edit "]').click();
   await page.locator('#name').fill('Nitinkumar N');
@@ -81,8 +81,8 @@ test('Naukri Login 2 ', async ({ browser }) => {
   await page.locator('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type=\"submit\"]').click();
 
   // Wait for profile link after login
- const profileLink = page.locator('.user-details .other-info-wrapper .view-profile-wrapper a');
-await profileLink.click();
+  await page.waitForSelector('a[href="/mnjuser/profile"]:has-text("View profile")', { state: 'visible', timeout: 60000 });
+  await page.locator('a[href="/mnjuser/profile"]:has-text("View profile")').click();
 
   await page.locator('[class="icon edit "]').click();
   await page.locator('#name').fill('Preethi H.T');
