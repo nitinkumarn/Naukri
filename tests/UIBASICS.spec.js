@@ -22,6 +22,21 @@ test('Naukri Login', async ({ browser }) => {
   await page.waitForSelector('a[href="/mnjuser/profile"]:has-text("View profile")', { state: 'visible', timeout: 60000 });
   await page.locator('a[href="/mnjuser/profile"]:has-text("View profile")').click();
 
+  // Handle file upload for resume
+  const fileChooserPromise = page.waitForEvent('filechooser');
+  await page.locator("input[value='Update resume']").click();
+  const fileChooser = await fileChooserPromise;
+  // Using resume file from the tests directory
+  await fileChooser.setFiles(__dirname + '/Nitinkumar_resume.pdf');
+  
+  // Wait for and verify the success message
+  await page.waitForSelector('text=Success', { state: 'visible', timeout: 30000 });
+  const successMessage = await page.locator('text=Resume has been successfully uploaded.').textContent();
+  console.log('Resume upload status:', successMessage);
+  
+  // Add assertion to verify success
+  expect(successMessage).toBe('Resume has been successfully uploaded.');
+
   await page.locator('[class="icon edit "]').click();
   await page.locator('#name').fill('Nitinkumar N');
   await page.locator('#saveBasicDetailsBtn').click();
