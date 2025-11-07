@@ -41,11 +41,6 @@ test('Naukri Login', async ({ browser }) => {
   await page.locator('#name').fill('Nitinkumar N');
   await page.locator('#saveBasicDetailsBtn').click();
   await console.log("Naukri Login & update Successful");
-
-  // Capture full-page screenshot with date and time
-  const date = new Date();
-  const formattedDate = date.toISOString().replace(/:/g, '-'); // Replace colons to avoid issues in filenames
-  await page.screenshot({ path: `screenshot-${formattedDate}.png`, fullPage: true });
 }, 120000); // Set test timeout to 2 minutes
 
 // test('Page First PlayWright Test', async ({ page }) => {
@@ -71,41 +66,4 @@ test('Ds Naukri Login', async ({ browser }) => {
   await page.locator('#name').fill('Deepika B U');
   await page.locator('#saveBasicDetailsBtn').click();
   await console.log("D's Naukri Login & update Successful");
-
-  // Capture full-page screenshot with date and time
-  const date = new Date();
-  const formattedDate = date.toISOString().replace(/:/g, '-'); // Replace colons to avoid issues in filenames
-  await page.screenshot({ path: `screenshot-${formattedDate}.png`, fullPage: true });
 });
-
-test('Naukri Login 2 ', async ({ browser }) => {
-  const context = await browser.newContext();
-  const page = await context.newPage();
-  await page.goto("https://www.naukri.com/nlogin/login");
-
-  // Wait for username field to be visible
-  await page.waitForSelector('#usernameField', { state: 'visible', timeout: 60000 });
-  await page.locator('#usernameField').fill("preethigowdam23@gmail.com");
-
-  // Wait for password field to be visible
-  await page.waitForSelector('#passwordField', { state: 'visible', timeout: 60000 });
-  await page.locator('#passwordField').fill("Newjobhunt@1234");
-
-  // Wait for login button to be enabled
-  await page.waitForSelector('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type=\"submit\"]', { state: 'visible', timeout: 60000 });
-  await page.locator('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type=\"submit\"]').click();
-
-  // Wait for profile link after login
-  await page.waitForSelector('a[href="/mnjuser/profile"]:has-text("View profile")', { state: 'visible', timeout: 60000 });
-  await page.locator('a[href="/mnjuser/profile"]:has-text("View profile")').click();
-
-  await page.locator('[class="icon edit "]').click();
-  await page.locator('#name').fill('Preethi H.T');
-  await page.locator('#saveBasicDetailsBtn').click();
-  await console.log("Naukri Login & update Successful");
-
-  // Capture full-page screenshot with date and time
-  const date = new Date();
-  const formattedDate = date.toISOString().replace(/:/g, '-'); // Replace colons to avoid issues in filenames
-  await page.screenshot({ path: `screenshot-${formattedDate}.png`, fullPage: true });
-}, 120000); // Set test timeout to 2 minutes
