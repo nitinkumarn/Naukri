@@ -27,7 +27,7 @@ test('Naukri Login', async ({ browser }) => {
   await page.locator("input[value='Update resume']").click();
   const fileChooser = await fileChooserPromise;
   // Using resume file from the tests directory
-  await fileChooser.setFiles(__dirname + '/Nitinkumar_resume.pdf');
+  await fileChooser.setFiles(__dirname + '/Nitinkumar_Resume.pdf');
   
   // Wait for and verify the success message
   await page.waitForSelector('text=Success', { state: 'visible', timeout: 30000 });
