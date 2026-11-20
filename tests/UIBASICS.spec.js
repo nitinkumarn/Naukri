@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 
 test('Naukri Login', async ({ browser }) => {
+  test.setTimeout(120000);
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto("https://www.naukri.com/nlogin/login");
@@ -15,8 +16,8 @@ test('Naukri Login', async ({ browser }) => {
   await page.locator('#passwordField').fill("Nitink@1995");
 
   // Wait for login button to be enabled
-  await page.waitForSelector('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type=\"submit\"]', { state: 'visible', timeout: 60000 });
-  await page.locator('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type=\"submit\"]').click();
+  await page.waitForSelector('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type="submit"]', { state: 'visible', timeout: 60000 });
+  await page.locator('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type="submit"]').click();
 
   // Wait for profile link after login
   await page.waitForSelector('a[href="/mnjuser/profile"]:has-text("View profile")', { state: 'visible', timeout: 60000 });
@@ -37,10 +38,23 @@ test('Naukri Login', async ({ browser }) => {
   // Add assertion to verify success
   expect(successMessage).toBe('Resume has been successfully uploaded.');
 
-  await page.locator('[class="icon edit "]').click();
-  await page.locator('#name').fill('Nitinkumar N');
-  await page.locator('#saveBasicDetailsBtn').click();
-  await console.log("Naukri Login & update Successful");
+  // Open Basic Details edit using the same stable pattern as Ds Naukri Login.
+  const editBasicDetails = page.locator('[class*="edit"]:visible').first();
+  await editBasicDetails.waitFor({ state: 'visible', timeout: 60000 });
+  await editBasicDetails.click();
+
+  const nameField = page.getByRole('textbox', { name: /Name/i }).first();
+  await nameField.waitFor({ state: 'attached', timeout: 60000 });
+  await nameField.waitFor({ state: 'visible', timeout: 60000 });
+  await nameField.fill('Nitinkumar N');
+
+  const saveButton = page.getByRole('button', { name: 'Save', exact: true }).last();
+  await saveButton.waitFor({ state: 'attached', timeout: 30000 });
+  await saveButton.waitFor({ state: 'visible', timeout: 30000 });
+  await saveButton.click();
+
+  await expect(nameField).toHaveValue('Nitinkumar N', { timeout: 30000 });
+  console.log("Naukri Login & update Successful");
 }, 120000); // Set test timeout to 2 minutes
 
 // test('Page First PlayWright Test', async ({ page }) => {
@@ -55,15 +69,39 @@ test('Naukri Login', async ({ browser }) => {
 // });
 
 test('Ds Naukri Login', async ({ browser }) => {
+  test.setTimeout(120000);
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto("https://www.naukri.com/nlogin/login");
+
+  await page.goto("https://www.naukri.com/nlogin/login", {
+    waitUntil: 'domcontentloaded',
+  });
+
+  await page.locator('#usernameField').waitFor({ state: 'visible', timeout: 60000 });
   await page.locator('#usernameField').fill("deepikabu1998@gmail.com");
+
+  await page.locator('#passwordField').waitFor({ state: 'visible', timeout: 60000 });
   await page.locator('#passwordField').fill("DeepikaUmesh@098");
-  await page.locator('button.waves-effect.waves-light.btn-large.btn-block.btn-bold.blue-btn.textTransform[type="submit"]').click();
-  await page.locator('[href="/mnjuser/profile"]').click();
-  await page.locator('[class="icon edit "]').click();
-  await page.locator('#name').fill('Deepika B U');
+
+  const loginButton = page.getByRole('button', { name: 'Login', exact: true });
+  await loginButton.waitFor({ state: 'visible', timeout: 60000 });
+  await loginButton.click();
+
+  const profileLink = page.locator('a[href="/mnjuser/profile"]:visible').first();
+  await profileLink.waitFor({ state: 'visible', timeout: 60000 });
+  await profileLink.click();
+
+  const editBasicDetails = page.locator('[class*="edit"]:visible').first();
+  await editBasicDetails.waitFor({ state: 'visible', timeout: 60000 });
+  await editBasicDetails.click();
+
+  const nameField = page.getByRole('textbox', { name: /Name/i }).first();
+  await nameField.waitFor({ state: 'visible', timeout: 30000 });
+  await nameField.fill('Deepika B U');
+
+  await page.locator('#saveBasicDetailsBtn').waitFor({ state: 'visible', timeout: 30000 });
   await page.locator('#saveBasicDetailsBtn').click();
-  await console.log("D's Naukri Login & update Successful");
+
+  await expect(page.locator('#name')).toHaveValue('Deepika B U', { timeout: 30000 });
+  console.log("D's Naukri Login & update Successful");
 });
